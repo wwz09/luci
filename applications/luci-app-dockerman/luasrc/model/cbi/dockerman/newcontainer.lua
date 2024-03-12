@@ -10,17 +10,15 @@ local m, s, o
 local dk = docker.new()
 
 local cmd_line = table.concat(arg, '/')
-local images, networks
 local create_body = {}
 
-if dk:_ping().code ~= 200 then
-	lost_state = true
-	images = {}
-	networks = {}
-else
-	images = dk.images:list().body
-	networks = dk.networks:list().body
-end
+local images = dk.images:list().body
+local networks = dk.networks:list().body
+local containers = dk.containers:list({
+	query = {
+		all=true
+	}
+}).body
 
 local is_quot_complete = function(str)
 	local num = 0, w
@@ -371,6 +369,7 @@ if cmd_line and cmd_line:match("^DOCKERCLI.+") then
 elseif cmd_line and cmd_line:match("^duplicate/[^/]+$") then
 	local container_id = cmd_line:match("^duplicate/(.+)")
 	create_body = dk:containers_duplicate_config({id = container_id}) or {}
+
 	if not create_body.HostConfig then
 		create_body.HostConfig = {}
 	end
@@ -383,8 +382,6 @@ elseif cmd_line and cmd_line:match("^duplicate/[^/]+$") then
 		default_config.interactive = create_body.OpenStdin and true or false
 		default_config.privileged = create_body.HostConfig.Privileged and true or false
 		default_config.restart =  create_body.HostConfig.RestartPolicy and create_body.HostConfig.RestartPolicy.name or nil
-		-- default_config.network = create_body.HostConfig.NetworkMode == "default" and "bridge" or create_body.HostConfig.NetworkMode
-		-- if container has leave original network, and add new network, .HostConfig.NetworkMode is INcorrect, so using first child of .NetworkingConfig.EndpointsConfig
 		default_config.network = create_body.NetworkingConfig and create_body.NetworkingConfig.EndpointsConfig and next(create_body.NetworkingConfig.EndpointsConfig) or nil
 		default_config.ip = default_config.network and default_config.network ~= "bridge" and default_config.network ~= "host" and default_config.network ~= "null" and create_body.NetworkingConfig.EndpointsConfig[default_config.network].IPAMConfig and create_body.NetworkingConfig.EndpointsConfig[default_config.network].IPAMConfig.IPv4Address or nil
 		default_config.link = create_body.HostConfig.Links
@@ -411,9 +408,7 @@ elseif cmd_line and cmd_line:match("^duplicate/[^/]+$") then
 		if create_body.HostConfig.PortBindings and type(create_body.HostConfig.PortBindings) == "table" then
 			default_config.publish = {}
 			for k, v in pairs(create_body.HostConfig.PortBindings) do
-				for x, y in ipairs(v) do
-					table.insert( default_config.publish, y.HostPort..":"..k:match("^(%d+)/.+").."/"..k:match("^%d+/(.+)") )
-				end
+				table.insert( default_config.publish, v[1].HostPort..":"..k:match("^(%d+)/.+").."/"..k:match("^%d+/(.+)") )
 			end
 		end
 
@@ -443,15 +438,11 @@ end
 
 m = SimpleForm("docker", translate("Docker - Containers"))
 m.redirect = luci.dispatcher.build_url("admin", "docker", "containers")
-if lost_state then
-	m.submit=false
-	m.reset=false
-end
 
 s = m:section(SimpleSection)
 s.template = "dockerman/apply_widget"
 s.err=docker:read_status()
-s.err=s.err and s.err:gsub("\n","<br>"):gsub(" ","&nbsp;")
+s.err=s.err and s.err:gsub("\n","<br />"):gsub(" ","&#160;")
 if s.err then
 	docker:clear_status()
 end
@@ -726,9 +717,9 @@ m.handle = function(self, state, data)
 	local network = data.network
 	local ip = (network ~= "bridge" and network ~= "host" and network ~= "none") and data.ip or nil
 	local volume = data.volume
-	local memory = data.memory or nil
-	local cpu_shares = data.cpu_shares or nil
-	local cpus = data.cpus or nil
+	local memory = data.memory or 0
+	local cpu_shares = data.cpu_shares or 0
+	local cpus = data.cpus or 0
 	local blkio_weight = data.blkio_weight or nil
 
 	local portbindings = {}
@@ -796,7 +787,7 @@ m.handle = function(self, state, data)
 		end
 	end
 
-	if memory and memory ~= 0 then
+	if memory ~= 0 then
 		_,_,n,unit = memory:find("([%d%.]+)([%l%u]+)")
 		if n then
 			unit = unit and unit:sub(1,1):upper() or "B"
@@ -826,10 +817,10 @@ m.handle = function(self, state, data)
 	create_body.HostConfig.RestartPolicy = { Name = restart, MaximumRetryCount = 0 }
 	create_body.HostConfig.Privileged = privileged and true or false
 	create_body.HostConfig.PortBindings = portbindings
-	create_body.HostConfig.Memory = memory and tonumber(memory)
-	create_body.HostConfig.CpuShares = cpu_shares and tonumber(cpu_shares)
-	create_body.HostConfig.NanoCPUs = cpus and tonumber(cpus) * 10 ^ 9
-	create_body.HostConfig.BlkioWeight = blkio_weight and tonumber(blkio_weight)
+	create_body.HostConfig.Memory = tonumber(memory)
+	create_body.HostConfig.CpuShares = tonumber(cpu_shares)
+	create_body.HostConfig.NanoCPUs = tonumber(cpus) * 10 ^ 9
+	create_body.HostConfig.BlkioWeight = tonumber(blkio_weight)
 	create_body.HostConfig.PublishAllPorts = publish_all
 
 	if create_body.HostConfig.NetworkMode ~= network then
@@ -869,7 +860,7 @@ m.handle = function(self, state, data)
 		local json_stringify = luci.jsonc and luci.jsonc.stringify
 		docker:append_status("Images: " .. "pulling" .. " " .. image .. "...\n")
 		local res = dk.images:create({query = {fromImage=image}}, docker.pull_image_show_status_cb)
-		if res and res.code and res.code == 200 and (res.body[#res.body] and not res.body[#res.body].error and res.body[#res.body].status and (res.body[#res.body].status == "Status: Downloaded newer image for ".. image or res.body[#res.body].status == "Status: Image is up to date for ".. image)) then
+		if res and res.code == 200 and (res.body[#res.body] and not res.body[#res.body].error and res.body[#res.body].status and (res.body[#res.body].status == "Status: Downloaded newer image for ".. image or res.body[#res.body].status == "Status: Image is up to date for ".. image)) then
 			docker:append_status("done\n")
 		else
 			res.code = (res.code == 200) and 500 or res.code
@@ -899,7 +890,7 @@ m.handle = function(self, state, data)
 
 	docker:append_status("Container: " .. "create" .. " " .. name .. "...")
 	local res = dk.containers:create({name = name, body = create_body})
-	if res and res.code and res.code == 201 then
+	if res and res.code == 201 then
 		docker:clear_status()
 		luci.http.redirect(luci.dispatcher.build_url("admin/docker/containers"))
 	else
