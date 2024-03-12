@@ -7,13 +7,12 @@ local uci = require("luci.model.uci").cursor()
 local json = require "luci.jsonc"
 local datatype = require "luci.cbi.datatypes"
 local addr = arg[1]
-local resolve = arg[2]
 
 local function debug_dns()
 	local info, ip, host
 	ip = luci.sys.exec("uci -q get network.lan.ipaddr |awk -F '/' '{print $1}' 2>/dev/null |tr -d '\n'")
 	if not ip or ip == "" then
-		ip = luci.sys.exec("ip address show $(uci -q -p /tmp/state get network.lan.ifname) | grep -w 'inet'  2>/dev/null |grep -Eo 'inet [0-9\.]+' | awk '{print $2}' | tr -d '\n'")
+		ip = luci.sys.exec("ip address show $(uci -q -p /tmp/state get network.lan.device) | grep -w 'inet'  2>/dev/null |grep -Eo 'inet [0-9\.]+' | awk '{print $2}' | tr -d '\n'")
 	end
 	if not ip or ip == "" then
 		ip = luci.sys.exec("ip addr show 2>/dev/null | grep -w 'inet' | grep 'global' | grep 'brd' | grep -Eo 'inet [0-9\.]+' | awk '{print $2}' | head -n 1 | tr -d '\n'")
@@ -26,7 +25,7 @@ local function debug_dns()
 		if info then
 			info = json.parse(info)
 		end
-		if info and not resolve then
+		if info then
 			print("Status: "..(info.Status))
 			print("TC: "..tostring(info.TC))
 			print("RD: "..tostring(info.RD))
@@ -69,15 +68,6 @@ local function debug_dns()
 					print("  name: "..(v.name))
 					print("  type: "..(v.type))
 					print("")
-				end
-			end
-		end
-		if info and resolve then
-			if info.Answer then
-				for _, v in pairs(info.Answer) do
-					if v.type == 1 then
-						print(v.data)
-					end
 				end
 			end
 		end

@@ -240,8 +240,8 @@ msgid "Error"
 msgstr "Chyba"
 
 #: applications/luci-app-ddns/htdocs/luci-static/resources/view/ddns/overview.js:1024
-msgid "Error Max Retry Counter"
-msgstr ""
+msgid "Error Retry Counter"
+msgstr "Čítač opakování chyb"
 
 #: applications/luci-app-ddns/htdocs/luci-static/resources/view/ddns/overview.js:1034
 msgid "Error Retry Interval"
@@ -560,8 +560,7 @@ msgstr ""
 "VOLITELNÉ: pro rozpoznání registrované adresy IP použít nevýchozí server DNS."
 
 #: applications/luci-app-ddns/htdocs/luci-static/resources/view/ddns/overview.js:1025
-msgid ""
-"On Error the script will stop execution after the given number of retries."
+msgid "On Error the script will stop execution after given number of retrys."
 msgstr "V případě chyby se skript zastaví po daném počtu opakování."
 
 #: applications/luci-app-ddns/htdocs/luci-static/resources/view/ddns/overview.js:756
@@ -733,7 +732,7 @@ msgid "The default setting of '0' will retry infinitely."
 msgstr "Výchozí nastavení '0' znamená nekonečné opakování."
 
 #: applications/luci-app-ddns/htdocs/luci-static/resources/view/ddns/overview.js:1035
-msgid "The interval between which each successive retry commences."
+msgid "The interval between which each succesive retry will commence."
 msgstr "Při chybě skript zastaví provádění po daném počtu opakování."
 
 #: applications/luci-app-ddns/htdocs/luci-static/resources/view/ddns/overview.js:505
@@ -941,57 +940,3 @@ msgstr "sekundy/sekund"
 #: applications/luci-app-ddns/htdocs/luci-static/resources/view/ddns/overview.js:780
 msgid "to run HTTPS without verification of server certificates (insecure)"
 msgstr "k použití HTTPS bez ověření serverových certifikátů (nedůvěryhodné)"
-
-#~ msgid "Error Retry Counter"
-#~ msgstr "Čítač opakování chyb"
-
-#~ msgid "This is the current content of the log file in"
-#~ msgstr "Toto je aktuální obsah souboru protokolu v"
-
-#~ msgid ""
-#~ "Configure here the details for all Dynamic DNS services including this "
-#~ "LuCI application."
-#~ msgstr ""
-#~ "Zde nastavte podrobnosti pro všechny dynamické služby DNS včetně této "
-#~ "aplikace LuCI."
-
-#~ msgid "For detailed information about parameter settings look here."
-#~ msgstr "Podrobné informace o nastavení parametrů najdete zde."
-
-#~ msgid "Global Configuration"
-#~ msgstr "Globální nastavení"
-
-#~ msgid ""
-#~ "It is NOT recommended for casual users to change settings on this page."
-#~ msgstr ""
-#~ "Pro příležitostné uživatele NENÍ doporučeno měnit nastavení na této "
-#~ "stránce."
-
-#~ msgid "BusyBox's nslookup and Wget do not support to specify"
-#~ msgstr "Nástroje nslookup a wget pro BusyBox nepodporuje specifikaci"
-
-#~ msgid "BusyBox's nslookup and hostip do not support to specify to use TCP"
-#~ msgstr "Nástroje nslookup a hostip pro BusyBox nepodporují použití TCP"
-
-#~ msgid "BusyBox's nslookup in the current compiled version"
-#~ msgstr "Nástroj nslookup pro BusyBox v aktuální kompilované verzi"
-
-#~ msgid "Defines the Web page to read systems IP-Address from"
-#~ msgstr "Definuje webovou stránku pro zjištění systémové IP adresy z"
-
-#~ msgid "Install 'ca-certificates' package or needed certificates"
-#~ msgstr "Nainstalujte balíček 'ca-certificates' nebo potřebné certifikáty"
-
-#~ msgid ""
-#~ "You should install 'bind-host' or 'knot-host' or 'drill' or 'hostip' "
-#~ "package,"
-#~ msgstr ""
-#~ "Měli byste nainstalovat balíček 'bind-host' nebo 'knot-host' nebo 'drill' "
-#~ "nebo 'hostip',"
-
-#~ msgid ""
-#~ "Dynamic DNS allows that your router can be reached with a fixed hostname "
-#~ "while having a dynamically changing IP address."
-#~ msgstr ""
-#~ "Dynamické DNS umožňuje, aby mohl být váš router dostupný pod pevným "
-#~ "hostname, zatímco se jeho IP adresa dynamicky mění."

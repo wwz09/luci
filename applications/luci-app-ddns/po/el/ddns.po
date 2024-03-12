@@ -224,7 +224,7 @@ msgid "Error"
 msgstr "Σφάλμα"
 
 #: applications/luci-app-ddns/htdocs/luci-static/resources/view/ddns/overview.js:1024
-msgid "Error Max Retry Counter"
+msgid "Error Retry Counter"
 msgstr ""
 
 #: applications/luci-app-ddns/htdocs/luci-static/resources/view/ddns/overview.js:1034
@@ -527,8 +527,7 @@ msgid "OPTIONAL: Use non-default DNS-Server to detect 'Registered IP'."
 msgstr ""
 
 #: applications/luci-app-ddns/htdocs/luci-static/resources/view/ddns/overview.js:1025
-msgid ""
-"On Error the script will stop execution after the given number of retries."
+msgid "On Error the script will stop execution after given number of retrys."
 msgstr ""
 
 #: applications/luci-app-ddns/htdocs/luci-static/resources/view/ddns/overview.js:756
@@ -696,7 +695,7 @@ msgid "The default setting of '0' will retry infinitely."
 msgstr ""
 
 #: applications/luci-app-ddns/htdocs/luci-static/resources/view/ddns/overview.js:1035
-msgid "The interval between which each successive retry commences."
+msgid "The interval between which each succesive retry will commence."
 msgstr ""
 
 #: applications/luci-app-ddns/htdocs/luci-static/resources/view/ddns/overview.js:505
@@ -884,11 +883,3 @@ msgstr ""
 #: applications/luci-app-ddns/htdocs/luci-static/resources/view/ddns/overview.js:780
 msgid "to run HTTPS without verification of server certificates (insecure)"
 msgstr ""
-
-#~ msgid ""
-#~ "Dynamic DNS allows that your router can be reached with a fixed hostname "
-#~ "while having a dynamically changing IP address."
-#~ msgstr ""
-#~ "Το Δυναμικό DNS επιτρέπει στον δρομολογητή σας να είναι προσβάσιμος μέσω "
-#~ "ενός σταθερού ονόματος υπολογιστή παρόλο που η διεύθυνση IP του μπορεί να "
-#~ "αλλάζει δυναμικά."

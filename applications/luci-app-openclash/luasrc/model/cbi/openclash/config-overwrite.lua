@@ -17,7 +17,7 @@ bold_off = [[</strong>]]
 
 local op_mode = string.sub(luci.sys.exec('uci get openclash.config.operation_mode 2>/dev/null'),0,-2)
 if not op_mode then op_mode = "redir-host" end
-local lan_ip = SYS.exec("uci -q get network.lan.ipaddr |awk -F '/' '{print $1}' 2>/dev/null |tr -d '\n' || ip address show $(uci -q -p /tmp/state get network.lan.ifname || uci -q -p /tmp/state get network.lan.device) | grep -w 'inet'  2>/dev/null |grep -Eo 'inet [0-9\.]+' | awk '{print $2}' | tr -d '\n' || ip addr show 2>/dev/null | grep -w 'inet' | grep 'global' | grep 'brd' | grep -Eo 'inet [0-9\.]+' | awk '{print $2}' | head -n 1 | tr -d '\n'")
+local lan_ip = SYS.exec("uci -q get network.lan.ipaddr |awk -F '/' '{print $1}' 2>/dev/null |tr -d '\n' || ip address show $(uci -q -p /tmp/state get network.lan.device || uci -q -p /tmp/state get network.lan.device) | grep -w 'inet'  2>/dev/null |grep -Eo 'inet [0-9\.]+' | awk '{print $2}' | tr -d '\n' || ip addr show 2>/dev/null | grep -w 'inet' | grep 'global' | grep 'brd' | grep -Eo 'inet [0-9\.]+' | awk '{print $2}' | head -n 1 | tr -d '\n'")
 
 m = Map("openclash", translate("Overwrite Settings"))
 m.pageaction = false
@@ -134,27 +134,6 @@ o.description = translate("Please Make Sure Ports Available")
 o = s:taboption("dns", Flag, "enable_custom_dns", font_red..bold_on..translate("Custom DNS Setting")..bold_off..font_off)
 o.description = font_red..bold_on..translate("Set OpenClash Upstream DNS Resolve Server")..bold_off..font_off
 o.default = 0
-
----- Fallback DNS Proxy Group
-o = s:taboption("dns", Value, "proxy_dns_group", font_red..bold_on..translate("Fallback DNS Proxy Group (Support Regex)")..bold_off..font_off)
-o.description = translate("Group Use For Proxy The Fallback DNS, Preventing DNS Lookup Failures")..translate("(Only Meta Core)")
-local groupnames,filename
-filename = m.uci:get("openclash", "config", "config_path")
-if filename then
-	groupnames = SYS.exec(string.format('ruby -ryaml -rYAML -I "/usr/share/openclash" -E UTF-8 -e "YAML.load_file(\'%s\')[\'proxy-groups\'].each do |i| puts i[\'name\']+\'##\' end" 2>/dev/null',filename))
-	if groupnames then
-		for groupname in string.gmatch(groupnames, "([^'##\n']+)##") do
-			if groupname ~= nil and groupname ~= "" then
-				o:value(groupname)
-			end
-		end
-	end
-end
-
-o:value("DIRECT")
-o:value("Disable", translate("Disable"))
-o.default = "Disable"
-o.rempty = false
 
 o = s:taboption("dns", Flag, "append_wan_dns", translate("Append Upstream DNS"))
 o.description = translate("Append The Upstream Assigned DNS And Gateway IP To The Nameserver")

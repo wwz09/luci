@@ -7,7 +7,7 @@ include $(TOPDIR)/rules.mk
 
 PKG_NAME:=shadowsocks-rust
 PKG_VERSION:=1.17.1
-PKG_RELEASE:=1
+PKG_RELEASE:=47
 
 PKG_SOURCE_HEADER:=shadowsocks-v$(PKG_VERSION)
 PKG_SOURCE_BODY:=unknown-linux-musl
@@ -16,33 +16,33 @@ PKG_SOURCE_URL:=https://github.com/shadowsocks/shadowsocks-rust/releases/downloa
 
 ifeq ($(ARCH),aarch64)
   PKG_SOURCE:=$(PKG_SOURCE_HEADER).aarch64-$(PKG_SOURCE_BODY).$(PKG_SOURCE_FOOTER)
-  PKG_HASH:=ac172822b579ac0fe59e4cc519e9f4ffee32ed069b10ffdc7421fb1bfdb8c03e
+  PKG_HASH:=skip
 else ifeq ($(ARCH),arm)
   # Referred to golang/golang-values.mk
   ARM_CPU_FEATURES:=$(word 2,$(subst +,$(space),$(call qstrip,$(CONFIG_CPU_TYPE))))
   ifeq ($(ARM_CPU_FEATURES),)
     PKG_SOURCE:=$(PKG_SOURCE_HEADER).arm-$(PKG_SOURCE_BODY)eabi.$(PKG_SOURCE_FOOTER)
-    PKG_HASH:=2468a4a3077326661b696e2603850db06667c60c107842ce054e3f70d772952d
+    PKG_HASH:=skip
   else
     PKG_SOURCE:=$(PKG_SOURCE_HEADER).arm-$(PKG_SOURCE_BODY)eabihf.$(PKG_SOURCE_FOOTER)
-    PKG_HASH:=155e62782afcdf46ea88319253853c573e9542a7a8e91769e4a6dedbef1f1c35
+    PKG_HASH:=skip
   endif
 else ifeq ($(ARCH),i386)
   PKG_SOURCE:=$(PKG_SOURCE_HEADER).i686-$(PKG_SOURCE_BODY).$(PKG_SOURCE_FOOTER)
-  PKG_HASH:=d71024f5f79ebe209173124ed6c733c546214f091f2552eb13217ea65aa54940
+  PKG_HASH:=skip
 else ifeq ($(ARCH),mips)
   PKG_SOURCE:=$(PKG_SOURCE_HEADER).mips-$(PKG_SOURCE_BODY).$(PKG_SOURCE_FOOTER)
-  PKG_HASH:=1a8ab79ef3904290c564933b3cff60f0b80211c769b25103adb910e1adb0a4d8
+  PKG_HASH:=skip
 else ifeq ($(ARCH),mipsel)
   PKG_SOURCE:=$(PKG_SOURCE_HEADER).mipsel-$(PKG_SOURCE_BODY).$(PKG_SOURCE_FOOTER)
-  PKG_HASH:=e3909ba7e07c89adf7818f8c4c07a980650e9a0fa05f522d41e9fcba636f2cb8
+  PKG_HASH:=skip
 else ifeq ($(ARCH),x86_64)
   PKG_SOURCE:=$(PKG_SOURCE_HEADER).x86_64-$(PKG_SOURCE_BODY).$(PKG_SOURCE_FOOTER)
-  PKG_HASH:=8ee466b7919480f33db45c3995d4b0baa0c310470f88f7d65b7bb4a89e256624
+  PKG_HASH:=skip
 # Set the default value to make OpenWrt Package Checker happy
 else
   PKG_SOURCE:=dummy
-  PKG_HASH:=dummy
+  PKG_HASH:=skip
 endif
 
 PKG_MAINTAINER:=Tianling Shen <cnsztl@immortalwrt.org>

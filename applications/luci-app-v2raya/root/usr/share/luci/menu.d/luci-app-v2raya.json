@@ -1,6 +1,7 @@
 {
 	"admin/services/v2raya": {
 		"title": "v2rayA",
+		"order": 90,
 		"action": {
 			"type": "firstchild"
 		},
