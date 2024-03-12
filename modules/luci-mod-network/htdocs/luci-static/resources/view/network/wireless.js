@@ -950,6 +950,9 @@ return view.extend({
 					o.value('2', _('High'));
 					o.value('3', _('Very High'));
 
+					o = ss.taboption('advanced', form.Flag, 'mu_beamformer', _('MU-MIMO'));
+					o.default = o.disabled;
+
 					o = ss.taboption('advanced', form.Value, 'distance', _('Distance Optimization'), _('Distance to farthest network member in meters. Set only for distances above one kilometer; otherwise it is harmful.'));
 					o.datatype = 'or(range(0,114750),"auto")';
 					o.placeholder = 'auto';
@@ -964,6 +967,9 @@ return view.extend({
 
 					o = ss.taboption('advanced', form.Flag, 'noscan', _('Force 40MHz mode'), _('Always use 40MHz channels even if the secondary channel overlaps. Using this option does not comply with IEEE 802.11n-2009!'));
 					o.rmempty = true;
+
+					o = ss.taboption('advanced', form.Flag, 'vendor_vht', _('Enable 256-QAM'), _('802.11n 2.4Ghz Only'));
+					o.default = o.disabled;
 
 					o = ss.taboption('advanced', form.Value, 'beacon_int', _('Beacon Interval'));
 					o.datatype = 'range(15,65535)';
@@ -1573,6 +1579,7 @@ return view.extend({
 
 
 				if (hwtype == 'mac80211') {
+
 					// Probe 802.11r support (and EAP support as a proxy for Openwrt)
 					var has_80211r = L.hasSystemFeature('hostapd', '11r') || L.hasSystemFeature('hostapd', 'eap');
 
@@ -2185,7 +2192,7 @@ return view.extend({
 			uci.add('wireless', 'wifi-iface', section_id);
 			uci.set('wireless', section_id, 'device', radioDev.getName());
 			uci.set('wireless', section_id, 'mode', 'ap');
-			uci.set('wireless', section_id, 'ssid', 'OpenWrt');
+			uci.set('wireless', section_id, 'ssid', 'ImmortalWrt');
 			uci.set('wireless', section_id, 'encryption', 'none');
 
 			this.addedSection = section_id;

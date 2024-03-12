@@ -168,8 +168,10 @@ return view.extend({
 
 	handleToggleDDns: function(m, ev) {
 		return this.callInitAction('ddns', 'enabled')
-			.then(L.bind(function (action) { return this.callInitAction('ddns', action ? 'disable' : 'enable')}, this))
-			.then(L.bind(function (action) { return this.callInitAction('ddns', action ? 'stop' : 'start')}, this))
+			.then(L.bind(function (action) {
+				this.callInitAction('ddns', action ? 'disable' : 'enable')
+				this.callInitAction('ddns', action ? 'stop' : 'start')
+			}, this))
 			.then(L.bind(m.render, m))
 			.catch(function(e) { ui.addNotification(null, E('p', e.message)) });
 	},
@@ -1020,9 +1022,9 @@ return view.extend({
 					o.value("hours", _("hours"));
 					o.value("days", _("days"));
 
-					o = s.taboption("timer", form.Value, "retry_count",
-						_("Error Retry Counter"),
-						_("On Error the script will stop execution after given number of retrys.")
+					o = s.taboption("timer", form.Value, "retry_max_count",
+						_("Error Max Retry Counter"),
+						_("On Error the script will stop execution after the given number of retries.")
 						+ "<br />" +
 						_("The default setting of '0' will retry infinitely."));
 					o.placeholder = "0";
@@ -1032,7 +1034,7 @@ return view.extend({
 
 					o = s.taboption("timer", form.Value, "retry_interval",
 						_("Error Retry Interval"),
-  						_("The interval between which each succesive retry will commence."));
+  						_("The interval between which each successive retry commences."));
 					o.placeholder = "60";
 					o.optional = true;
 					o.modalonly = true;

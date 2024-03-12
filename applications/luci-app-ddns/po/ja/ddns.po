@@ -237,8 +237,8 @@ msgid "Error"
 msgstr "エラー"
 
 #: applications/luci-app-ddns/htdocs/luci-static/resources/view/ddns/overview.js:1024
-msgid "Error Retry Counter"
-msgstr "エラー再試行カウンター"
+msgid "Error Max Retry Counter"
+msgstr ""
 
 #: applications/luci-app-ddns/htdocs/luci-static/resources/view/ddns/overview.js:1034
 msgid "Error Retry Interval"
@@ -559,7 +559,8 @@ msgstr ""
 "オプション: 登録済み IP の検出に非デフォルトの DNS サーバーを使用します。"
 
 #: applications/luci-app-ddns/htdocs/luci-static/resources/view/ddns/overview.js:1025
-msgid "On Error the script will stop execution after given number of retrys."
+msgid ""
+"On Error the script will stop execution after the given number of retries."
 msgstr "指定された再試行回数後のスクリプトのエラーで実行を停止します"
 
 #: applications/luci-app-ddns/htdocs/luci-static/resources/view/ddns/overview.js:756
@@ -732,7 +733,7 @@ msgid "The default setting of '0' will retry infinitely."
 msgstr "デフォルトのゼロを設定すると、無限に再試行します。"
 
 #: applications/luci-app-ddns/htdocs/luci-static/resources/view/ddns/overview.js:1035
-msgid "The interval between which each succesive retry will commence."
+msgid "The interval between which each successive retry commences."
 msgstr "指定された再試行回数後のスクリプトのエラーで実行を停止します"
 
 #: applications/luci-app-ddns/htdocs/luci-static/resources/view/ddns/overview.js:505
@@ -942,3 +943,42 @@ msgstr "秒"
 #: applications/luci-app-ddns/htdocs/luci-static/resources/view/ddns/overview.js:780
 msgid "to run HTTPS without verification of server certificates (insecure)"
 msgstr "サーバー証明書の検証なしにHTTPSを実行する(安全ではありません)"
+
+#~ msgid "Error Retry Counter"
+#~ msgstr "エラー再試行カウンター"
+
+#~ msgid ""
+#~ "Configure here the details for all Dynamic DNS services including this "
+#~ "LuCI application."
+#~ msgstr ""
+#~ "ここでは、この LuCI アプリケーションを含むすべての DDNS サービスの詳細を構"
+#~ "成します。"
+
+#~ msgid "Defines the Web page to read systems IP-Address from<br />"
+#~ msgstr "システムの IP アドレス読み取り元の Webページ を定義<br />"
+
+#~ msgid "Example for IPv4: http://checkip.dyndns.com"
+#~ msgstr "IPv4 の例: http://checkip.dyndns.com"
+
+#~ msgid "Example for IPv6: http://checkipv6.dyndns.com"
+#~ msgstr "IPv6 の例: http://checkipv6.dyndns.com"
+
+#~ msgid "For detailed information about parameter settings look here."
+#~ msgstr "パラメーター設定について詳しくはこちらをご覧ください。"
+
+#~ msgid "Global Configuration"
+#~ msgstr "グローバル構成"
+
+#~ msgid ""
+#~ "If this service section is disabled it could not be started.<br />Neither "
+#~ "from LuCI interface nor from console"
+#~ msgstr ""
+#~ "このサービス・セクションが無効の場合、<br />LuCI インターフェースおよびコ"
+#~ "ンソールのどちらからも開始できません"
+
+#~ msgid ""
+#~ "Dynamic DNS allows that your router can be reached with a fixed hostname "
+#~ "while having a dynamically changing IP address."
+#~ msgstr ""
+#~ "ダイナミックDNSを使用することで、IPアドレスが変更されても固定のホスト名を"
+#~ "使ってルーターにアクセスすることができます。"

@@ -3,7 +3,6 @@
 		"description": "Grant access to v2rayA configuration",
 		"read": {
 			"file": {
-				"/bin/mkdir -p /etc/v2raya/": [ "exec" ],
 				"/var/log/v2raya/v2raya.log": [ "read" ]
 			},
 			"ubus": {
@@ -12,13 +11,6 @@
 			"uci": [ "v2raya" ]
 		},
 		"write": {
-			"file": {
-				"/etc/v2raya/grpc_certificate.crt": [ "write" ],
-				"/etc/v2raya/grpc_private.key": [ "write" ]
-			},
-			"ubus": {
-				"luci": [ "setInitAction" ]
-			},
 			"uci": [ "v2raya" ]
 		}
 	}

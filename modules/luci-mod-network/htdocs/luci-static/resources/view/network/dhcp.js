@@ -347,6 +347,10 @@ return view.extend({
 			_('Authoritative'),
 			_('This is the only DHCP server in the local network.'));
 
+		s.taboption('general', form.Flag, 'dns_redirect',
+			_('DNS redirect'),
+			_('Force redirect all local DNS queries to DNSMasq, a.k.a. DNS Hijacking.'));
+
 		o = s.taboption('general', form.Value, 'local',
 			_('Resolve these locally'),
 			_('Never forward these matching domains or subdomains; resolve from DHCP or hosts files only.'));
@@ -434,7 +438,7 @@ return view.extend({
 		o = s.taboption('filteropts', form.Flag, 'rebind_protection',
 			_('Rebind protection'),
 			customi18n(_('Discard upstream responses containing {rfc_1918_link} addresses.') ) + '<br />' +
-			customi18n(_('Discard also upstream responses containing {rfc_4193_link}, Link-Local and private IPv4-Mapped {rfc_4291_link} IPv6 Addresses.') )	
+			customi18n(_('Discard also upstream responses containing {rfc_4193_link}, Link-Local and private IPv4-Mapped {rfc_4291_link} IPv6 Addresses.') )
 		);
 		o.rmempty = false;
 
@@ -599,7 +603,7 @@ return view.extend({
 			_('Filter private'),
 			customi18n(
 			_('Reject reverse lookups to {rfc_6303_link} IP ranges ({reverse_arpa}) not in {etc_hosts}.') )
-		); 
+		);
 		o.default = o.enabled;
 
 		s.taboption('filteropts', form.Flag, 'filterwin2k',
